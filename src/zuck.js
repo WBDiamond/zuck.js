@@ -3,9 +3,10 @@
     https://github.com/ramon82/zuck.js
     MIT License
 */
-module.exports = (window => {
+(global => {
   /* Utilities */
   let query = function (qs) {
+    console.log('old query');
     return document.querySelectorAll(qs)[0];
   };
 
@@ -80,7 +81,9 @@ module.exports = (window => {
   /* Zuckera */
   const ZuckJS = function (timeline, options, documentRoot) {
     query = function (qs) {
-      return documentRoot.querySelectorAll(qs)[0];
+      const el = documentRoot.querySelectorAll(qs)[0];
+      console.log('new query', qs, el);
+      return el;
     };
 
     const zuck = this;
@@ -1482,18 +1485,18 @@ module.exports = (window => {
   /* Legacy code */
   ZuckJS.buildItem = ZuckJS.buildStoryItem;
 
-  // CommonJS and Node.js module support.
-  if (typeof exports !== 'undefined') {
+  if (typeof define === 'function' && define.amd) {
+    define(function () {
+      return ZuckJS;
+    }); // CommonJS and Node.js module support.
+  } else if (typeof exports !== 'undefined') {
     // Support Node.js specific `module.exports` (which can be a function)
     if (typeof module !== 'undefined' && module.exports) {
       exports = module.exports = ZuckJS;
-    }
-    // But always support CommonJS module 1.1.1 spec (`exports` cannot be a function)
+    } // But always support CommonJS module 1.1.1 spec (`exports` cannot be a function)
+
     exports.ZuckJS = ZuckJS;
   } else {
-    /* Too much zuck zuck to maintain legacy */
-    window.ZuckitaDaGalera = window.Zuck = ZuckJS;
+    global.ZuckJS = ZuckJS;
   }
-
-  return ZuckJS;
-})(window || {});
+})(window);
