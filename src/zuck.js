@@ -5,7 +5,7 @@
 */
 module.exports = (window => {
   /* Utilities */
-  const query = function (qs) {
+  let query = function (qs) {
     return document.querySelectorAll(qs)[0];
   };
 
@@ -79,7 +79,6 @@ module.exports = (window => {
 
   /* Zuckera */
   const ZuckJS = function (timeline, options, documentRoot) {
-
     query = function (qs) {
       return documentRoot.querySelectorAll(qs)[0];
     };
