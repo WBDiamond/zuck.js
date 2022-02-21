@@ -78,7 +78,12 @@ module.exports = (window => {
   };
 
   /* Zuckera */
-  const ZuckJS = function (timeline, options) {
+  const ZuckJS = function (timeline, options, documentRoot) {
+
+    query = function (qs) {
+      return documentRoot.querySelectorAll(qs)[0];
+    };
+
     const zuck = this;
     const option = function (name, prop) {
       const type = function (what) {
@@ -195,7 +200,7 @@ module.exports = (window => {
     };
 
     if (typeof timeline === 'string') {
-      timeline = document.getElementById(timeline);
+      timeline = documentRoot.getElementById(timeline);
     }
 
     if (!timeline.id) {
@@ -459,7 +464,7 @@ module.exports = (window => {
           }
         });
 
-        document.body.appendChild(modalZuckContainer);
+        documentRoot.appendChild(modalZuckContainer);
       }
 
       const modalContent = query('#zuck-modal-content');
@@ -1011,7 +1016,7 @@ module.exports = (window => {
     /* parse functions */
     const parseItems = function (story, forceUpdate) {
       const storyId = story.getAttribute('data-id');
-      const storyItems = document.querySelectorAll(`#${id} [data-id="${storyId}"] .items > li`);
+      const storyItems = documentRoot.querySelectorAll(`#${id} [data-id="${storyId}"] .items > li`);
       const items = [];
 
       if (!option('reactive') || forceUpdate) {
@@ -1127,7 +1132,7 @@ module.exports = (window => {
     };
 
     const updateStorySeenPosition = function () {
-      each(document.querySelectorAll(`#${id} .story.seen`), (i, el) => {
+      each(documentRoot.querySelectorAll(`#${id} .story.seen`), (i, el) => {
         const newData = zuck.data[el.getAttribute('data-id')];
         const timeline = el.parentNode;
 
